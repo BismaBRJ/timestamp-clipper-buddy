@@ -1,0 +1,10 @@
+[project]
+name = "timestamps-extractor-repl"
+version = "0.1.0" # uhh...
+description = "A little REPL program to extract video/audio at specified timestamps, acting as an ongoing inventory towards doing so, using FFmpeg and written in Python 3"
+readme = "README.md"
+requires-python = ">=3.12" # feel free to change I guess? I won't use fancy syntax
+dependencies = []
+
+[project.scripts]
+timestamps-extractor-repl = "timestamps-extractor-repl:main"
