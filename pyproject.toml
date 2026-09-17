@@ -7,4 +7,11 @@ requires-python = ">=3.10" # for smooth use of type hints :)
 dependencies = []
 
 [project.scripts]
-timestamp-clipper-repl = "timestamp-clipper-repl:main"
+app = "timestamp_clipper_repl.main:main"
+main = "timestamp_clipper_repl.main:main"
+timestamp-clipper-repl = "timestamp_clipper_repl.main:main"
+timestamp_clipper_repl = "timestamp_clipper_repl.main:main"
+
+[build-system]
+requires = ["uv_build>=0.12,<0.13"]
+build-backend = "uv_build"
