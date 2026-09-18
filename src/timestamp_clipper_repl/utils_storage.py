@@ -56,7 +56,7 @@ class Inventory:
         if self.export_path:
             print("Clips set to be saved at:", str(self.export_path))
         else:
-            print("No destination folder selected")
+            print("No folder selected for saving cliips")
 
         if self.clips:
             print("Timestamps (format: hh:mm:ss.000):")
@@ -67,3 +67,6 @@ class Inventory:
                 print("    To be saved as  :", clip.filename)
         else:
             print("No timestamps yet")
+
+    def len_clips(self):
+        return len(self.clips)
