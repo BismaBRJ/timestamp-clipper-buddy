@@ -75,6 +75,7 @@ class Inventory:
 
     def overwrite(self, target_path: Path):
         data = self.as_dict()
+        del data["inventory_path"]
         with open(target_path, "w") as f:
             json.dump(data, f, indent=4)
     
@@ -84,7 +85,7 @@ class Inventory:
         with open(source_path, "r") as f:
             data = json.load(f)
         try:
-            self.inventory_path = data["inventory_path"]
+            self.inventory_path = source_path
             self.media_path = data["media_path"]
             self.export_path = data["export_path"]
             self.clips = []

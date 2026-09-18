@@ -34,6 +34,7 @@ def main():
                     elif not inventory_path.is_file():
                         given = input("File doesn't exist yet. Create? (y/n): ")
                         if given[0].lower() == "y":
+                            inventory_path.parent.mkdir(parents=True, exist_ok=True)
                             inventory_path.touch()
                             inventory.inventory_path = inventory_path
                             inventory.overwrite(inventory_path)
@@ -47,7 +48,7 @@ def main():
                         print("o: overwrite saved file")
                         print("(anything else): cancel")
                         given = input("Enter action: ")
-                        if given == "i":
+                        if given == "l":
                             success = inventory.load(inventory_path)
                             if success:
                                 print("Inventory loaded successfully.")
@@ -64,6 +65,9 @@ def main():
             repl_is_running = False
         else:
             print("Sorry, action unknown.")
+        # Autosave
+        if inventory.inventory_path is not None:
+            inventory.overwrite(inventory.inventory_path)
 
 if __name__ == "__main__":
     main()
