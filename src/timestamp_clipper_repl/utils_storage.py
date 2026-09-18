@@ -5,31 +5,43 @@ from pathlib import Path
 import json
 
 duration_type = datetime.timedelta
-duration_pattern = r"(\d\d):(\d\d)"
+duration_pattern = re.compile(
+    r"(?:(?P<h>\d\d):)?(?P<m>\d\d):(?P<s>\d\d)(?:.(?P<ms>\d\d\d))?"
+    # ( ... ) is a capture group
+    # (?P<name> ... ) is a named capture group
+    # (?: ... ) is a non-capture group
+    # (?: ... )? is an optional non-capture group
+    # so basically, [hh:]mm:ss[.xxx] where x is a millisecond digit
+)
 
 def duration_from_str(duration_str):
-    h = 0
-    m = 0
-    s = 0
-    ms = 0
-    result = duration_type(
-            hours=h,
-            minutes=m,
-            seconds=s,
-            milliseconds=ms
-        )
+    parsed = duration_pattern.match(duration_str)
+    if parsed is not None:
+        parsed_dict = parsed.groupdict()
+        h = int(parsed_dict["h"])
+        m = int(parsed_dict["m"])
+        s = int(parsed_dict["s"])
+        ms = int(parsed_dict["ms"])
+        result = duration_type(
+                hours=h,
+                minutes=m,
+                seconds=s,
+                milliseconds=ms
+            )
+    else:
+        result = None
     return result
 
 @dataclass
 class ClipRange:
-    start: duration_type
-    end: duration_type
-    filename: str
+    start: duration_type | None = None
+    end: duration_type | None = None
+    filename: str | None = None
 
     def as_dict(self):
         result = asdict(self)
-        result["start"] = str(result["start"])
-        result["end"] = str(result["end"])
+        result["start"] = str(result["start"]) if result["start"] else None
+        result["end"] = str(result["end"]) if result["end"] else None
         return result
 
 @dataclass
