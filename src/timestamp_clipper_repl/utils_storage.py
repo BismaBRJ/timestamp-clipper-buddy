@@ -1,8 +1,24 @@
 from dataclasses import dataclass, field, asdict
 import datetime
+import re
 from pathlib import Path
+import json
 
 duration_type = datetime.timedelta
+duration_pattern = r"(\d\d):(\d\d)"
+
+def duration_from_str(duration_str):
+    h = 0
+    m = 0
+    s = 0
+    ms = 0
+    result = duration_type(
+            hours=h,
+            minutes=m,
+            seconds=s,
+            milliseconds=ms
+        )
+    return result
 
 @dataclass
 class ClipRange:
@@ -40,6 +56,40 @@ class Inventory:
                 "clips": [clip.as_dict() for clip in self.clips]
             }
         return result
+
+    def as_dict_precise(self):
+        result = asdict(self)
+        return result
+
+    def overwrite(self, target_path: Path):
+        data = self.as_dict()
+        with open(target_path, "w") as f:
+            json.dump(data, f, indent=4)
+    
+    def load(self, source_path: Path):
+        success = False
+        backup = self.as_dict_precise()
+        with open(source_path, "r") as f:
+            data = json.load(f)
+        try:
+            self.inventory_path = data["inventory_path"]
+            self.media_path = data["media_path"]
+            self.export_path = data["export_path"]
+            self.clips = []
+            for clip_dict in data["clips"]:
+                new_clip = ClipRange(
+                        start = duration_from_str(clip_dict["start"]),
+                        end = duration_from_str(clip_dict["end"]),
+                        filename = clip_dict["filename"]
+                    )
+                self.clips.append(new_clip)
+            success = True
+        except:
+            self.inventory_path = backup["inventory_path"]
+            self.media_path = backup["media_path"]
+            self.export_path = backup["export_path"]
+            self.clips = backup["clips"]
+        return success
 
     def display(self):
         print("=== Inventory of timestamps ===")
