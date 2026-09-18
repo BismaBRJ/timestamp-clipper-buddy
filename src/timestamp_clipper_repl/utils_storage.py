@@ -10,12 +10,36 @@ class ClipRange:
     end: duration_type
     filename: str
 
+    def as_dict(self):
+        result = asdict(self)
+        result["start"] = str(result["start"])
+        result["end"] = str(result["end"])
+        return result
+
 @dataclass
 class Inventory:
     inventory_path: Path | None = None
     media_path: Path | None = None
     export_path: Path | None = None
     clips: list[ClipRange] = field(default_factory=list)
+
+    def as_dict(self):
+        result = {
+                "inventory_path":
+                    str(self.inventory_path)
+                        if self.inventory_path
+                    else None,
+                "media_path":
+                    str(self.media_path)
+                        if self.media_path
+                    else None,
+                "export_path":
+                    str(self.export_path)
+                        if self.export_path
+                    else None,
+                "clips": [clip.as_dict() for clip in self.clips]
+            }
+        return result
 
     def display(self):
         print("=== Inventory of timestamps ===")
@@ -43,5 +67,3 @@ class Inventory:
                 print("    To be saved as  :", clip.filename)
         else:
             print("No timestamps yet")
-
-
