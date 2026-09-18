@@ -1,5 +1,8 @@
 # macOS stuff
 .DS_Store
 
+# Testing
+test_saves/
+
 # Python stuff
 __pycache__/
