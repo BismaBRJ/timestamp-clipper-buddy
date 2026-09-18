@@ -1,4 +1,4 @@
-from utils_storage import Inventory
+from .utils_storage import Inventory
 import subprocess
 
 def main():
