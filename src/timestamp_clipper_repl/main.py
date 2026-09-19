@@ -1,6 +1,6 @@
 from .utils_storage import Inventory
+from .utils_splitter import is_media_valid
 from pathlib import Path
-import subprocess
 
 def main():
     inventory = Inventory()
@@ -23,7 +23,7 @@ def main():
             while not action_done:
                 given = input("Enter path for inventory, end in .json (or \"c\" to cancel): ")
                 if (given == "c") or (given == "\"c\""):
-                    break
+                    action_done = True
                 try:
                     inventory_path = Path(given)
                 except:
@@ -60,6 +60,27 @@ def main():
                             print("Inventory overwritten successfully.")
                         else:
                             print("Setting inventory path canceled.")
+                        action_done = True
+        elif next_action[0] == "m":
+            action_done = False
+            while not action_done:
+                given = input("Enter path for media file (or \"c\" to cancel): ")
+                if (given == "c") or (given == "\"c\""):
+                    action_done = True
+                try:
+                    media_path = Path(given)
+                except:
+                    print("Invalid path.")
+                else:
+                    if not media_path.is_file():
+                        print("File doesn't exist.")
+                    else:
+                        print("File found! Checking validity...")
+                        if is_media_valid(media_path):
+                            print("Valid media file.")
+                            inventory.media_path = media_path
+                        else:
+                            print("Invalid media file, may be corrupted.")
                         action_done = True
         elif next_action[0] == "q":
             repl_is_running = False
