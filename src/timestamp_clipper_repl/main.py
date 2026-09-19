@@ -82,6 +82,29 @@ def main():
                         else:
                             print("Invalid media file, may be corrupted.")
                         action_done = True
+        elif next_action[0] == "c":
+            action_done = False
+            while not action_done:
+                given = input("Enter path for saving clips (or \"c\" to cancel: ")
+                if (given == "c") or (given == "\"c\""):
+                    action_done = True
+                try:
+                    clips_path = Path(given)
+                except:
+                    print("Invalid path.")
+                else:
+                    if not clips_path.is_dir():
+                        given = input("Folder doesn't exist yet. Create? (y/n): ")
+                        if given[0].lower() == "y":
+                            clips_path.mkdir(parents=True, exist_ok=True)
+                            inventory.export_path = clips_path
+                            print("Folder created.")
+                        else:
+                            print("Setting clips path canceled.")
+                    else:
+                        print("Folder found.")
+                        inventory.export_path = clips_path
+                    action_done = True
         elif next_action[0] == "q":
             repl_is_running = False
         else:
