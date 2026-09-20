@@ -145,9 +145,12 @@ def main():
                     else:
                         parsed = duration_from_str(given)
                         if parsed is not None:
-                            end = parsed
-                            print("End timestamp set to", str(end))
-                            input_end_done = True
+                            if start < parsed:
+                                end = parsed
+                                print("End timestamp set to", str(end))
+                                input_end_done = True
+                            else:
+                                print(f"End timestamp must be after start ({str(start)}).")
                         else:
                             print("Invalid timestamp.")
                 input_filename_done = False
