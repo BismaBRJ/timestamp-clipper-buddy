@@ -18,10 +18,12 @@ def duration_from_str(duration_str):
     parsed = duration_pattern.match(duration_str)
     if parsed is not None:
         parsed_dict = parsed.groupdict()
-        h = int(parsed_dict["h"])
+        h = parsed_dict["h"]
+        h = int(h) if h is not None else 0
         m = int(parsed_dict["m"])
         s = int(parsed_dict["s"])
-        ms = int(parsed_dict["ms"])
+        ms = parsed_dict["ms"]
+        ms = int(ms) if ms is not None else 0
         result = duration_type(
                 hours=h,
                 minutes=m,
@@ -130,6 +132,16 @@ class Inventory:
                 print("    To be saved as  :", clip.filename)
         else:
             print("No timestamps yet")
+
+    def add_clip(self, start, end, filename):
+        success = True
+        try:
+            new_clip = ClipRange(start, end, filename)
+        except:
+            success = False
+        else:
+            self.clips.append(new_clip)
+        return success
 
     def len_clips(self):
         return len(self.clips)

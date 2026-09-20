@@ -1,6 +1,7 @@
-from .utils_storage import Inventory
+from .utils_storage import Inventory, duration_type, duration_from_str
 from .utils_splitter import is_media_valid
 from pathlib import Path
+from pathvalidate import is_valid_filename 
 
 def main():
     inventory = Inventory()
@@ -105,6 +106,70 @@ def main():
                         print("Folder found.")
                         inventory.export_path = clips_path
                     action_done = True
+        elif next_action[0] == "n":
+            action_done = False
+            start = duration_type()
+            end = duration_type()
+            filename = ""
+            while not action_done:
+                input_start_done = False
+                while not input_start_done:
+                    print("Timestamp format: [hh:]mm:ss[.xxx]")
+                    print("h: hours (optional)")
+                    print("m: minutes")
+                    print("s: seconds")
+                    print("x: milliseconds (optional)")
+                    given = input("Enter start timestamp (or \"c\" to cancel): ")
+                    if (given == "c") or (given == "\"c\""):
+                        action_done = True
+                        input_start_done = True
+                    else:
+                        parsed = duration_from_str(given)
+                        if parsed is not None:
+                            start = parsed
+                            print("Start timestamp set to", str(start))
+                            input_start_done = True
+                        else:
+                            print("Invalid timestamp.")
+                input_end_done = False
+                while (not input_end_done) and (not action_done):
+                    print("Timestamp format: [hh:]mm:ss[.xxx]")
+                    print("h: hours (optional)")
+                    print("m: minutes")
+                    print("s: seconds")
+                    print("x: milliseconds (optional)")
+                    given = input("Enter end timestamp (or \"c\" to cancel): ")
+                    if (given == "c") or (given == "\"c\""):
+                        action_done = True
+                        input_end_done = True
+                    else:
+                        parsed = duration_from_str(given)
+                        if parsed is not None:
+                            end = parsed
+                            print("End timestamp set to", str(end))
+                            input_end_done = True
+                        else:
+                            print("Invalid timestamp.")
+                input_filename_done = False
+                while (not input_filename_done) and (not action_done):
+                    print("File extension will be the same as the original media.")
+                    given = input("Enter filename without extension (or \"/\" to cancel): ")
+                    if (given == "/") or (given == "\"/\""):
+                        action_done = True
+                        input_filename_done = True
+                    elif is_valid_filename(given):
+                        filename = given
+                        print("Filename set to:", filename)
+                        input_filename_done = True
+                    else:
+                        print("Invalid filename. Check for forbidden characters or reserved keywords.")
+                if not action_done:
+                    success = inventory.add_clip(start, end, filename)
+                    if success:
+                        action_done = True
+                        print("Timestamp added!")
+                    else:
+                        print("Adding timestamp failed.")
         elif next_action[0] == "q":
             repl_is_running = False
         else:
