@@ -194,6 +194,8 @@ def main():
                         try:
                             clip_no = int(given)
                             clip_idx = clip_no - 1
+                            if clip_idx < 0:
+                                raise IndexError
                             clip = inventory.clips[clip_idx]
                         except ValueError:
                             print("Please enter a number.")
@@ -279,6 +281,58 @@ def main():
                     given = input("Edit another clip? (y/n): ")
                     if given.lower() != "y":
                         print("Returning to menu...")
+                        action_done = True
+        elif next_action[0] == "d":
+            action_done = False
+            len_clips = len(inventory.clips)
+            if len_clips == 0:
+                print("No timestamps yet!")
+                action_done = True
+            while not action_done:
+                clip = None
+                clip_idx = len_clips
+                select_done = False
+                while not select_done:
+                    print("Here are the stored clips:")
+                    inventory.display_clips()
+                    given = input(f"Enter clip number from 1 to {len_clips} (or \"c\" to cancel): ")
+                    clip_no = None
+                    if (given == "c") or (given == "\"c\""):
+                        select_done = True
+                        action_done = True
+                    else:
+                        try:
+                            clip_no = int(given)
+                            clip_idx = clip_no - 1
+                            if clip_idx < 0:
+                                raise IndexError
+                            clip = inventory.clips[clip_idx]
+                        except ValueError:
+                            print("Please enter a number.")
+                        except IndexError:
+                            print(f"Clip no. {clip_no} doesn't exist!")
+                        else:
+                            print(f"Clip no. {clip_no} selected.")
+                            select_done = True
+                if not action_done:
+                    if clip is None:
+                        print("Clip doesn't exist; selection error occurred.")
+                    else:
+                        print("Here is the selected clip:")
+                        clip.display(prepend="    ")
+                        print("Deletion cannot be undone!")
+                        given = input("Are you sure you want to delete it? (y/n): ")
+                        if given.lower() == "y":
+                            try:
+                                del inventory.clips[clip_idx]
+                            except:
+                                print("Clip doesn't exist; selection error occurred.")
+                            else:
+                                print("Clip deleted.")
+                        else:
+                            print("Deletion canceled.")
+                    given = input("Delete another clip? (y/n): ")
+                    if given.lower() != "y":
                         action_done = True
         elif next_action[0] == "q":
             repl_is_running = False
