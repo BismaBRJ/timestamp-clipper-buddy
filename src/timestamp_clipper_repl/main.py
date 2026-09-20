@@ -16,6 +16,7 @@ def main():
         print("n: new timestamp")
         print("e: edit timestamp")
         print("d: delete timestamp")
+        print("x: delete ALL timestamps")
         print("r: run clipping")
         print("q: quit")
         next_action = input("Enter next action: ")
@@ -334,6 +335,18 @@ def main():
                     given = input("Delete another clip? (y/n): ")
                     if given.lower() != "y":
                         action_done = True
+        elif next_action[0] == "x":
+            len_clips = len(inventory.clips)
+            if len_clips == 0:
+                print("No timestamps yet!")
+            else:
+                print("Clip deletion cannot be undone!")
+                given = input("Are you sure you want to delete ALL timestamps? (y/n): ")
+                if given.lower() == "y":
+                    inventory.clips = []
+                    print("All clips deleted.")
+                else:
+                    print("Mass deletion canceled. Phew!")
         elif next_action[0] == "q":
             repl_is_running = False
         else:
