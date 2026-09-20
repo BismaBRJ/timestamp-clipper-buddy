@@ -4,7 +4,9 @@ version = "0.1.0" # uhh...
 description = "A little REPL program to extract video/audio at specified timestamps, acting as an ongoing inventory towards doing so, using FFmpeg and written in Python 3"
 readme = "README.md"
 requires-python = ">=3.10" # for smooth use of type hints :)
-dependencies = []
+dependencies = [
+    "pathvalidate"
+]
 
 [project.scripts]
 # entry point: uv run app
