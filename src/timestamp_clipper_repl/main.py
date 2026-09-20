@@ -1,5 +1,5 @@
 from .utils_storage import Inventory, duration_type, duration_from_str
-from .utils_splitter import is_media_valid
+from .utils_splitter import is_media_valid, run_clipper
 from pathlib import Path
 from pathvalidate import is_valid_filename 
 
@@ -321,7 +321,7 @@ def main():
                     else:
                         print("Here is the selected clip:")
                         clip.display(prepend="    ")
-                        print("Deletion cannot be undone!")
+                        print("Deletion cannot be undone and is immediately autosaved!")
                         given = input("Are you sure you want to delete it? (y/n): ")
                         if given.lower() == "y":
                             try:
@@ -340,13 +340,28 @@ def main():
             if len_clips == 0:
                 print("No timestamps yet!")
             else:
-                print("Clip deletion cannot be undone!")
+                print("Clip deletion cannot be undone and is immediately autosaved!")
                 given = input("Are you sure you want to delete ALL timestamps? (y/n): ")
                 if given.lower() == "y":
                     inventory.clips = []
                     print("All clips deleted.")
                 else:
                     print("Mass deletion canceled. Phew!")
+        elif next_action[0] == "r":
+            len_clips = len(inventory.clips)
+            if len_clips == 0:
+                print("No timestamps yet!")
+            elif inventory.media_path is None:
+                print("No media selected yet!")
+            elif inventory.export_path is None:
+                print("No folder selected yet for saving clips!")
+            else:
+                print("Running clipper...")
+                success = run_clipper(inventory)
+                if success:
+                    print("Clipping successful!")
+                else:
+                    print("Clipping failed; see error above.")
         elif next_action[0] == "q":
             repl_is_running = False
         else:
