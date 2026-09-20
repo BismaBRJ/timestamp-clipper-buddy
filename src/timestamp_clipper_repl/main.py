@@ -1,5 +1,5 @@
 from .utils_storage import Inventory, duration_type, duration_from_str
-from .utils_splitter import is_media_valid, run_clipper
+from .utils_clipper import is_media_valid, run_clipper
 from pathlib import Path
 from pathvalidate import is_valid_filename 
 
