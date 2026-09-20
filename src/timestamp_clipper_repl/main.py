@@ -8,7 +8,7 @@ def main():
     repl_is_running = True
     print("Hello from timestamp-clipper-repl!")
     while repl_is_running: 
-        inventory.display()
+        inventory.display_inventory()
         print("=== Actions ===")
         print("i: set inventory path")
         print("m: set media path")
@@ -173,6 +173,113 @@ def main():
                         print("Timestamp added!")
                     else:
                         print("Adding timestamp failed.")
+        elif next_action[0] == "e":
+            action_done = False
+            len_clips = len(inventory.clips)
+            if len_clips == 0:
+                print("No timestamps yet! Add a new one instead.")
+                action_done = True
+            while not action_done:
+                clip = None
+                select_done = False
+                while not select_done:
+                    print("Here are the stored clips:")
+                    inventory.display_clips()
+                    given = input(f"Enter clip number from 1 to {len_clips} (or \"c\" to cancel): ")
+                    clip_no = None
+                    if (given == "c") or (given == "\"c\""):
+                        select_done = True
+                        action_done = True
+                    else:
+                        try:
+                            clip_no = int(given)
+                            clip_idx = clip_no - 1
+                            clip = inventory.clips[clip_idx]
+                        except ValueError:
+                            print("Please enter a number.")
+                        except IndexError:
+                            print(f"Clip no. {clip_no} doesn't exist!")
+                        else:
+                            print(f"Clip no. {clip_no} selected.")
+                            select_done = True
+                edit_done = False
+                while (not edit_done) and (not action_done):
+                    if clip is None:
+                        print("Clip doesn't exist; selection error occurred.")
+                        edit_done = True
+                    else:
+                        clip.display(prepend=("1. ", "2. ", "3. "))
+                        given = input("Select field to edit (1/2/3): ")
+                        if given == "1":
+                            replace_done = False
+                            while not replace_done:
+                                print("Timestamp format: [hh:]mm:ss[.xxx]")
+                                print("h: hours (optional)")
+                                print("m: minutes")
+                                print("s: seconds")
+                                print("x: milliseconds (optional)")
+                                print("Old start timestamp:", str(clip.start))
+                                given = input("Enter new start timestamp (or \"c\" to cancel): ")
+                                if (given == "c") or (given == "\"c\""):
+                                    replace_done = True
+                                else:
+                                    parsed = duration_from_str(given)
+                                    if parsed is not None:
+                                        if (clip.end is not None) and (parsed >= clip.end):
+                                            print(f"Start timestamp must be before end ({str(clip.end)}).")
+                                        else:
+                                            clip.start = parsed
+                                            print("Start timestamp set to", str(parsed))
+                                            replace_done = True
+                                    else:
+                                        print("Invalid timestamp.")
+                        elif given == "2":
+                            replace_done = False
+                            while not replace_done:
+                                print("Timestamp format: [hh:]mm:ss[.xxx]")
+                                print("h: hours (optional)")
+                                print("m: minutes")
+                                print("s: seconds")
+                                print("x: milliseconds (optional)")
+                                print("Old end timestamp:", str(clip.end))
+                                given = input("Enter new end timestamp (or \"c\" to cancel): ")
+                                if (given == "c") or (given == "\"c\""):
+                                    replace_done = True
+                                else:
+                                    parsed = duration_from_str(given)
+                                    if parsed is not None:
+                                        if (clip.start is not None) and (clip.start >= parsed):
+                                            print(f"End timestamp must be after start ({str(clip.start)}).")
+                                        else:
+                                            clip.end = parsed
+                                            print("End timestamp set to", str(parsed))
+                                            replace_done = True
+                                    else:
+                                        print("Invalid timestamp.")
+                        elif given == "3":
+                            replace_done = False
+                            while not replace_done:
+                                print("File extension will be the same as the original media.")
+                                print("Old filename:", str(clip.filename))
+                                given = input("Enter new filename without extension (or \"/\" to cancel): ")
+                                if (given == "/") or (given == "\"/\""):
+                                    replace_done = True
+                                elif is_valid_filename(given):
+                                    clip.filename = given
+                                    print("Filename set to:", given)
+                                    replace_done = True
+                                else:
+                                    print("Invalid filename. Check for forbidden characters or reserved keywords.")
+                        else:
+                            print("Unknown field.")
+                        given = input("Edit another field? (y/n): ")
+                        if given.lower() != "y":
+                            edit_done = True
+                if not action_done:
+                    given = input("Edit another clip? (y/n): ")
+                    if given.lower() != "y":
+                        print("Returning to menu...")
+                        action_done = True
         elif next_action[0] == "q":
             repl_is_running = False
         else:

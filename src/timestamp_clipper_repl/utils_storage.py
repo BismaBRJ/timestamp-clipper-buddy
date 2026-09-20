@@ -3,6 +3,7 @@ import datetime
 import re
 from pathlib import Path
 import json
+from typing import Any
 
 duration_type = datetime.timedelta
 duration_pattern = re.compile(
@@ -45,6 +46,19 @@ class ClipRange:
         result["start"] = str(result["start"]) if result["start"] else None
         result["end"] = str(result["end"]) if result["end"] else None
         return result
+
+    def display(self, prepend: Any = ""):
+        if (type(prepend) == list) and (len(prepend) == 3):
+            p = tuple(prepend)
+        elif (type(prepend) != tuple):
+            p = tuple(str(prepend) for i in range(3))
+        elif (len(prepend) != 3):
+            p = tuple(str(prepend[0]) for i in range(3))
+        else:
+            p = prepend
+        print(p[0] + "Start timestamp :", self.start)
+        print(p[1] + "End timestamp   :", self.end)
+        print(p[2] + "To be saved as  :", self.filename)
 
 @dataclass
 class Inventory:
@@ -105,8 +119,18 @@ class Inventory:
             self.export_path = backup["export_path"]
             self.clips = backup["clips"]
         return success
+    
+    def display_clips(self):
+        if self.clips:
+            print("Timestamps (format: hh:mm:ss.000):")
+            for idx, clip in enumerate(self.clips):
+                print(f"Clip no. {idx+1}")
+                clip.display(prepend=" " * 4)
+        else:
+            print("No timestamps yet")
 
-    def display(self):
+
+    def display_inventory(self):
         print("=== Inventory of timestamps ===")
         if self.inventory_path:
             print("Inventory autosaved at:", str(self.inventory_path))
@@ -123,16 +147,8 @@ class Inventory:
         else:
             print("No folder selected for saving clips")
 
-        if self.clips:
-            print("Timestamps (format: hh:mm:ss.000):")
-            for idx, clip in enumerate(self.clips):
-                print(f"Clip no. {idx+1}")
-                print("    Start timestamp :", clip.start)
-                print("    End timestamp   :", clip.end)
-                print("    To be saved as  :", clip.filename)
-        else:
-            print("No timestamps yet")
-
+        self.display_clips()
+        
     def add_clip(self, start, end, filename):
         success = True
         try:
@@ -142,6 +158,3 @@ class Inventory:
         else:
             self.clips.append(new_clip)
         return success
-
-    def len_clips(self):
-        return len(self.clips)
