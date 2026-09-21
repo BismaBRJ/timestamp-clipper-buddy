@@ -1,4 +1,4 @@
-from .utils_storage import Inventory, duration_type, duration_from_str
+from .utils_storage import Inventory, duration_type, duration_from_str, duration_to_str
 from .utils_clipper import is_media_valid, run_clipper
 from pathlib import Path
 from pathvalidate import is_valid_filename 
@@ -128,7 +128,7 @@ def main():
                         parsed = duration_from_str(given)
                         if parsed is not None:
                             start = parsed
-                            print("Start timestamp set to", str(start))
+                            print("Start timestamp set to", duration_to_str(start))
                             input_start_done = True
                         else:
                             print("Invalid timestamp.")
@@ -148,7 +148,7 @@ def main():
                         if parsed is not None:
                             if start < parsed:
                                 end = parsed
-                                print("End timestamp set to", str(end))
+                                print("End timestamp set to", duration_to_str(end))
                                 input_end_done = True
                             else:
                                 print(f"End timestamp must be after start ({str(start)}).")
@@ -232,7 +232,7 @@ def main():
                                             print(f"Start timestamp must be before end ({str(clip.end)}).")
                                         else:
                                             clip.start = parsed
-                                            print("Start timestamp set to", str(parsed))
+                                            print("Start timestamp set to", duration_to_str(parsed))
                                             replace_done = True
                                     else:
                                         print("Invalid timestamp.")
@@ -255,7 +255,7 @@ def main():
                                             print(f"End timestamp must be after start ({str(clip.start)}).")
                                         else:
                                             clip.end = parsed
-                                            print("End timestamp set to", str(parsed))
+                                            print("End timestamp set to", duration_to_str(parsed))
                                             replace_done = True
                                     else:
                                         print("Invalid timestamp.")
@@ -359,9 +359,16 @@ def main():
                 print("No timestamps yet!")
             elif inventory.media_path is None:
                 print("No media selected yet!")
+            elif not inventory.media_path.is_file():
+                print("Chosen media file doesn't exist!")
+            elif not is_media_valid(inventory.media_path):
+                print("Chosen media file is invalid, may be corrupted.")
             elif inventory.export_path is None:
                 print("No folder selected yet for saving clips!")
             else:
+                if not inventory.export_path.is_dir():
+                    print("Folder set for storing clips doesn't exist yet, creating...")
+                    inventory.export_path.mkdir(parents=True, exist_ok=True)
                 print("Running clipper...")
                 success = run_clipper(inventory)
                 if success:

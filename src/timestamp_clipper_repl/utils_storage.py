@@ -7,7 +7,8 @@ from typing import Any
 
 duration_type = datetime.timedelta
 duration_pattern = re.compile(
-    r"(?:(?P<h>\d\d):)?(?P<m>\d\d):(?P<s>\d\d)(?:.(?P<ms>\d\d\d))?"
+    r"(?:(?P<h>\d\d?):)?(?P<m>\d\d):(?P<s>\d\d)(?:.(?P<ms>\d\d?\d?))?"
+    # \d is a digit, \d? is an optional digit
     # ( ... ) is a capture group
     # (?P<name> ... ) is a named capture group
     # (?: ... ) is a non-capture group
@@ -16,23 +17,38 @@ duration_pattern = re.compile(
 )
 
 def duration_from_str(duration_str):
-    parsed = duration_pattern.match(duration_str)
-    if parsed is not None:
-        parsed_dict = parsed.groupdict()
-        h = parsed_dict["h"]
-        h = int(h) if h is not None else 0
-        m = int(parsed_dict["m"])
-        s = int(parsed_dict["s"])
-        ms = parsed_dict["ms"]
-        ms = int(ms) if ms is not None else 0
-        result = duration_type(
-                hours=h,
-                minutes=m,
-                seconds=s,
-                milliseconds=ms
-            )
-    else:
-        result = None
+    result = None
+    if duration_str is not None:
+        parsed = duration_pattern.match(duration_str)
+        if parsed is not None:
+            parsed_dict = parsed.groupdict()
+            h = parsed_dict["h"]
+            h = int(h) if h is not None else 0
+            m = int(parsed_dict["m"])
+            s = int(parsed_dict["s"])
+            ms = parsed_dict["ms"]
+            ms = int(ms) if ms is not None else 0
+            ms = int(str(ms).ljust(3, "0")) # padding from 1 and 12 to 100 and 120
+            result = duration_type(
+                    hours=h,
+                    minutes=m,
+                    seconds=s,
+                    milliseconds=ms
+                )
+        else:
+            result = None
+    return result
+
+def duration_to_str(duration: duration_type | None) -> str:
+    result = str(None)
+    if duration is not None:
+        raw_str = str(duration)
+        split_dot = raw_str.split('.')
+        # trim milliseconds up to three digits
+        if (len(split_dot) > 1) and (len(split_dot[1]) > 3):
+            result = split_dot[0] + '.' + split_dot[1][:3]
+        else:
+            result = raw_str
     return result
 
 @dataclass
@@ -43,8 +59,14 @@ class ClipRange:
 
     def as_dict(self):
         result = asdict(self)
-        result["start"] = str(result["start"]) if result["start"] else None
-        result["end"] = str(result["end"]) if result["end"] else None
+        if result["start"] is not None:
+            result["start"] = duration_to_str(result["start"])
+        else:
+            result["start"] = None
+        if result["end"] is not None:
+            result["end"] = duration_to_str(result["end"])
+        else:
+            result["end"] = None
         return result
 
     def display(self, prepend: Any = ""):
@@ -56,8 +78,8 @@ class ClipRange:
             p = tuple(str(prepend[0]) for i in range(3))
         else:
             p = prepend
-        print(p[0] + "Start timestamp :", self.start)
-        print(p[1] + "End timestamp   :", self.end)
+        print(p[0] + "Start timestamp :", duration_to_str(self.start))
+        print(p[1] + "End timestamp   :", duration_to_str(self.end))
         print(p[2] + "To be saved as  :", self.filename)
 
 @dataclass
@@ -105,7 +127,10 @@ class Inventory:
             self.media_path = data["media_path"]
             self.export_path = data["export_path"]
             self.clips = []
+            print("Reading clips from json")
             for clip_dict in data["clips"]:
+                print("clip_dict[\"start\"] =", clip_dict["start"])
+                print("clip_dict[\"end\"] =", clip_dict["end"])
                 new_clip = ClipRange(
                         start = duration_from_str(clip_dict["start"]),
                         end = duration_from_str(clip_dict["end"]),
@@ -114,6 +139,9 @@ class Inventory:
                 self.clips.append(new_clip)
             success = True
         except:
+        #except Exception as e:
+            #print("Error:")
+            #print(e)
             self.inventory_path = backup["inventory_path"]
             self.media_path = backup["media_path"]
             self.export_path = backup["export_path"]
@@ -122,7 +150,7 @@ class Inventory:
     
     def display_clips(self):
         if self.clips:
-            print("Timestamps (format: hh:mm:ss.000):")
+            print("Timestamps (format: hh:mm:ss.xxx, x is milliseconds):")
             for idx, clip in enumerate(self.clips):
                 print(f"Clip no. {idx+1}")
                 clip.display(prepend=" " * 4)
