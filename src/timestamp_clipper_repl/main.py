@@ -321,7 +321,10 @@ def main():
                     else:
                         print("Here is the selected clip:")
                         clip.display(prepend="    ")
-                        print("Deletion cannot be undone and is immediately autosaved!")
+                        if inventory.inventory_path is None:
+                            print("Deletion cannot be undone!")
+                        else:
+                            print("Deletion cannot be undone and is immediately autosaved!")
                         given = input("Are you sure you want to delete it? (y/n): ")
                         if given.lower() == "y":
                             try:
@@ -340,7 +343,10 @@ def main():
             if len_clips == 0:
                 print("No timestamps yet!")
             else:
-                print("Clip deletion cannot be undone and is immediately autosaved!")
+                if inventory.inventory_path is None:
+                    print("Clip deletion cannot be undone!")
+                else:
+                    print("Clip deletion cannot be undone and is immediately autosaved!")
                 given = input("Are you sure you want to delete ALL timestamps? (y/n): ")
                 if given.lower() == "y":
                     inventory.clips = []
