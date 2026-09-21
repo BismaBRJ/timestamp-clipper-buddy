@@ -123,9 +123,9 @@ class Inventory:
         with open(source_path, "r") as f:
             data = json.load(f)
         try:
-            self.inventory_path = source_path
-            self.media_path = data["media_path"]
-            self.export_path = data["export_path"]
+            self.inventory_path = Path(source_path)
+            self.media_path = Path(data["media_path"])
+            self.export_path = Path(data["export_path"])
             self.clips = []
             print("Reading clips from json")
             for clip_dict in data["clips"]:
