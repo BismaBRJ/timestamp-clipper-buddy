@@ -6,3 +6,6 @@ test_saves/
 
 # Python stuff
 __pycache__/
+
+# Don't wanna force a particular version for users
+.python_version
