@@ -146,4 +146,4 @@ The available controls/actions should be self-explanatory. You can select a medi
 
 The "inventory" system, which you never have to touch if you don't want to, is simply a way to save the inputted data as a .json file if you are not done, say you want to input so many timestamps, or maybe you don't want to have to select the same media file and/or the same output folder every single time. If you do choose to save the inputted data as such an inventory file, it will autosave (but not auto-export) after every change, after every new input or edit.
 
-If you know some Python, feel free to peek into the source code (that is, files inside the `src` folder) to look at the inner workings, edge cases etc. Suggestions are welcome; you can start a new GitHub issue or even pull request if you want to.
+If you know some Python, feel free to peek into the source code (that is, files inside the `src` folder) to look at the inner workings, edge cases etc. Suggestions and bug reports are welcome; you can start a new GitHub issue or even pull request if you want to.
