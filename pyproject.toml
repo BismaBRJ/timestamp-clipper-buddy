@@ -13,5 +13,5 @@ dependencies = [
 timestamp-clipper-buddy = "timestamp_clipper_buddy.main:main"
 
 [build-system]
-requires = ["uv_build>=0.12,<0.13"] # whatever works I guess?
+requires = ["uv_build>=0.12"] # whatever works I guess?
 build-backend = "uv_build"
