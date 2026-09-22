@@ -16,7 +16,7 @@ Either way, the first step is to get this repository on your computer. If you wa
 git clone https://github.com/BismaBRJ/timestamp-clipper-buddy.git
 ```
 
-Once the repo is on your computer, regardless of whether you clicked Download ZIP or ran `git clone`, the next step is to open the terminal on the folder. You may need to use the `cv` command, such as `cv <folder-name>` or `cd ..` (to exit the current folder) to navigate there. You can check whether or not you're there by listing the files in the current folder, using the `dir` command if on Windows or using `ls` otherwise; if you see the same files as on the GitHub repo page, then the terminal is at the right folder.
+Once the repo is on your computer, regardless of whether you clicked Download ZIP or ran `git clone`, the next step is to open the terminal on the folder. You may need to use the `cd` command, such as `cd <folder-name>` or `cd ..` (to exit the current folder) to navigate there. You can check whether or not you're there by listing the files in the current folder, using the `dir` command if on Windows or using `ls` otherwise; if you see the same files as on the GitHub repo page, then the terminal is at the right folder.
 
 ### By using uv
 
