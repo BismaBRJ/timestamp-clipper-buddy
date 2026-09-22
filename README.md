@@ -22,7 +22,7 @@ Once the repo is on your computer, regardless of whether you clicked Download ZI
 
 [Install uv](https://docs.astral.sh/uv/#installation) if you haven't already.
 
-You may want to [install Python](https://www.python.org/downloads/) before installing uv. If you don't already have Python installed, uv would install its own version of Python anyway.
+You may want to [install Python](https://www.python.org/downloads/) (at least version 3.10) before installing uv. If you don't already have Python installed, uv would install its own version of Python anyway.
 
 Once you have uv installed and have opened the terminal on the folder, first run
 
@@ -32,7 +32,13 @@ uv sync
 
 This you only have to do once.
 
-Now you can run the app whenever by running `uv run timestamp-clipper-buddy`, but to do so would always require first opening the terminal on the folder if not already.
+Now you can run the app whenever by running
+
+```
+uv run timestamp-clipper-buddy
+```
+
+but to do so would always require first opening the terminal on the folder if not already.
 
 Thus, to avoid such hassle, after the `uv sync` command, I highly recommend also running the following two commands, in order:
 
@@ -41,9 +47,21 @@ uv tool install .
 uv tool update-shell
 ```
 
-(don't forget that period on the first command!). By doing so, from now on, you can open the terminal whenever on any folder and run `timestamp-clipper-buddy` to start the app there.
+(don't forget that period on the first command!). By doing so, from now on, you can open the terminal whenever on any folder and run
 
-If you use git, you may want to run the `uv tool install . -e` command with that `-e` flag for easier updating; see below.
+```
+timestamp-clipper-buddy
+```
+
+to start the app there.
+
+If you use git, you may want to run
+
+```
+uv tool install . -e
+```
+
+with that `-e` flag for easier updating; see below.
 
 ### By manually running `main.py`
 
@@ -55,7 +73,26 @@ pip install pathvalidate
 
 or `pip3 install pathvalidate` if that doesn't work.
 
-With that out of the way, open the terminal on the folder if not already, then navigate further to `src/timestamp-clipper-buddy/` by running `cd src/timestamp-clipper-buddy/` or, one-by-one, `cd src` followed by `cd timestamp-clipper-buddy`. Finally, run `python main.py`, or `python3 main.py` if that doesn't work. So long as you have the terminal open in this inner folder within `src`, you can quit and re-run `python main.py` as much as you want.
+With that out of the way, open the terminal on the folder if not already, then navigate further to `src/timestamp-clipper-buddy/` by running
+
+```
+cd src/timestamp-clipper-buddy/
+```
+
+or, one-by-one,
+
+```
+cd src
+cd timestamp-clipper-buddy
+```
+
+Finally, run
+
+```
+python main.py
+```
+
+or `python3 main.py` if that doesn't work. So long as you have the terminal open in this inner folder within `src`, you can quit and re-run `python main.py` as much as you want.
 
 Using this method, you will indeed have to manually navigate to that folder on the terminal and run `main.py` that way every single time you want to run the app, at least if you close the terminal after use. (Hence you may consider using uv instead.)
 
@@ -71,11 +108,19 @@ Simply navigate to the repo folder on the terminal, then run
 git pull
 ```
 
-and you are all set. It will either pull the latest version of the repo if it is different from the version on your computer, or simply confirm that it is the same, i.e. it is still up-to-date.
+It will either pull the latest version of the repo if it is different from the version on your computer, or simply confirm that it is the same, i.e. it is still up-to-date.
+
+If you use uv but didn't use the `-e` flag as in `uv tool install . -e`, now is the time to do so:
+
+```
+uv tool install . -e
+```
+
+and you are all set. 
 
 ## Usage
 
-The app starts with the following greeting:
+The app starts with the following menu:
 
 ```
 Hello from timestamp-clipper-buddy!
