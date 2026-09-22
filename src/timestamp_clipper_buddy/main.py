@@ -3,10 +3,12 @@ from .utils_clipper import is_media_valid, run_clipper
 from pathlib import Path
 from pathvalidate import is_valid_filename 
 
+VERSION_NUMBER = "1.0.0"
+
 def main():
     inventory = Inventory()
     repl_is_running = True
-    print("Hello from timestamp-clipper-buddy!")
+    print(f"Running timestamp-clipper-buddy version {VERSION_NUMBER}")
     while repl_is_running: 
         inventory.display_inventory()
         print("=== Actions ===")

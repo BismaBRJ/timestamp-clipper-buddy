@@ -123,7 +123,7 @@ This will link the `timestamp-clipper-buddy` command to the repo, whatever curre
 The app starts with the following menu:
 
 ```
-Hello from timestamp-clipper-buddy!
+Running timestamp-clipper-buddy version 1.0.0
 === Inventory of timestamps ===
 Inventory not saved to a file
 No media selected
