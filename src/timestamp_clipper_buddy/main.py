@@ -1,9 +1,11 @@
 from .utils_storage import Inventory, duration_type, duration_from_str, duration_to_str
 from .utils_clipper import is_media_valid, run_clipper
+import importlib.metadata
 from pathlib import Path
 from pathvalidate import is_valid_filename 
 
-VERSION_NUMBER = "1.0.0"
+# taking the version number from the pyproject.toml file
+VERSION_NUMBER = importlib.metadata.version("timestamp-clipper-buddy")
 
 def main():
     inventory = Inventory()
