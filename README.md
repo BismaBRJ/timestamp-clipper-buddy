@@ -116,7 +116,7 @@ If you use uv but didn't use the `-e` flag as in `uv tool install . -e`, now is 
 uv tool install . -e
 ```
 
-and you are all set. 
+This will link the `timestamp-clipper-buddy` command to the repo, whatever current state it is in, so that updates work via `git pull` without having to re-install.
 
 ## Usage
 
