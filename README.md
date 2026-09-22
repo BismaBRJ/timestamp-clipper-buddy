@@ -92,7 +92,7 @@ Finally, run
 python main.py
 ```
 
-or `python3 main.py` if that doesn't work. So long as you have the terminal open in this inner folder within `src`, you can quit and re-run `python main.py` as much as you want.
+or `python3 main.py` if that doesn't work. So long as you have the terminal open in this inner folder within `src`, you can quit and re-run `python main.py` as many times as you want.
 
 Using this method, you will indeed have to manually navigate to that folder on the terminal and run `main.py` that way every single time you want to run the app, at least if you close the terminal after use. (Hence you may consider using uv instead.)
 
