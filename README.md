@@ -65,7 +65,7 @@ with that `-e` flag for easier updating; see below.
 
 ### By manually running `main.py`
 
-You must first [install Python](https://www.python.org/downloads/) if not already, which also comes with `pip`. So far, this project depends on the `pathvalidate` package, which can be installed using `pip` by running
+You must first [install Python](https://www.python.org/downloads/) (at least version 3.10) if not already, which also comes with `pip`. So far, this project depends on the `pathvalidate` package, which can be installed using `pip` by running
 
 ```
 pip install pathvalidate
