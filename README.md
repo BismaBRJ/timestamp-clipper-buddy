@@ -63,7 +63,7 @@ Using this method, you will indeed have to manually navigate to that folder on t
 
 The most straightforward answer is to just delete the entire repo on your computer (but make sure you don't put any of your stuff in there! Move them elsewhere if not already!) then re-install using the instructions above.
 
-But if you use git, a single command suffices, regardless of whether you initially installed by the "Download ZIP" button or by `git clone`.
+But if you have git, a single command suffices, regardless of whether you initially installed by the "Download ZIP" button or by `git clone`.
 
 Simply navigate to the repo folder on the terminal, then run
 
