@@ -1,6 +1,6 @@
 [project]
-name = "timestamp-clipper-repl"
-version = "0.1.0" # uhh...
+name = "timestamp-clipper-buddy"
+version = "1.0.0"
 description = "A little REPL program to extract video/audio at specified timestamps, acting as an ongoing inventory towards doing so, using FFmpeg and written in Python 3"
 readme = "README.md"
 requires-python = ">=3.10" # for smooth use of type hints :)
@@ -9,8 +9,8 @@ dependencies = [
 ]
 
 [project.scripts]
-# entry point: uv run timestamp-clipper-repl
-timestamp-clipper-repl = "timestamp_clipper_repl.main:main"
+# entry point: uv run timestamp-clipper-buddy
+timestamp-clipper-buddy = "timestamp_clipper_buddy.main:main"
 
 [build-system]
 requires = ["uv_build>=0.12,<0.13"] # whatever works I guess?

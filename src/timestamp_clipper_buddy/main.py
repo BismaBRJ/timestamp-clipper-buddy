@@ -6,7 +6,7 @@ from pathvalidate import is_valid_filename
 def main():
     inventory = Inventory()
     repl_is_running = True
-    print("Hello from timestamp-clipper-repl!")
+    print("Hello from timestamp-clipper-buddy!")
     while repl_is_running: 
         inventory.display_inventory()
         print("=== Actions ===")

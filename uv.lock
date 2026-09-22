@@ -12,8 +12,8 @@ wheels = [
 ]
 
 [[package]]
-name = "timestamp-clipper-repl"
-version = "0.1.0"
+name = "timestamp-clipper-buddy"
+version = "1.0.0"
 source = { editable = "." }
 dependencies = [
     { name = "pathvalidate" },
