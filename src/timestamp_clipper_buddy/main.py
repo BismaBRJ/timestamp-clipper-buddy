@@ -24,7 +24,7 @@ def main():
         print("r: run clipping")
         print("q: quit")
         next_action = input("Enter next action: ")
-        if next_action[0] == "i":
+        if next_action == "i":
             action_done = False
             while not action_done:
                 given = input("Enter path for inventory, end in .json (or \"c\" to cancel): ")
@@ -39,7 +39,7 @@ def main():
                         print("Please specify a .json file path (file doesn't have to exist yet)")
                     elif not inventory_path.is_file():
                         given = input("File doesn't exist yet. Create? (y/n): ")
-                        if given[0].lower() == "y":
+                        if given.lower() == "y":
                             inventory_path.parent.mkdir(parents=True, exist_ok=True)
                             inventory_path.touch()
                             inventory.inventory_path = inventory_path
@@ -67,7 +67,7 @@ def main():
                         else:
                             print("Setting inventory path canceled.")
                         action_done = True
-        elif next_action[0] == "m":
+        elif next_action == "m":
             action_done = False
             while not action_done:
                 given = input("Enter path for media file (or \"c\" to cancel): ")
@@ -88,7 +88,7 @@ def main():
                         else:
                             print("Invalid media file, may be corrupted.")
                         action_done = True
-        elif next_action[0] == "c":
+        elif next_action == "c":
             action_done = False
             while not action_done:
                 given = input("Enter path for saving clips (or \"c\" to cancel: ")
@@ -101,7 +101,7 @@ def main():
                 else:
                     if not clips_path.is_dir():
                         given = input("Folder doesn't exist yet. Create? (y/n): ")
-                        if given[0].lower() == "y":
+                        if given.lower() == "y":
                             clips_path.mkdir(parents=True, exist_ok=True)
                             inventory.export_path = clips_path
                             print("Folder created.")
@@ -111,7 +111,7 @@ def main():
                         print("Folder found.")
                         inventory.export_path = clips_path
                     action_done = True
-        elif next_action[0] == "n":
+        elif next_action == "n":
             action_done = False
             start = duration_type()
             end = duration_type()
@@ -178,7 +178,7 @@ def main():
                         print("Timestamp added!")
                     else:
                         print("Adding timestamp failed.")
-        elif next_action[0] == "e":
+        elif next_action == "e":
             action_done = False
             len_clips = len(inventory.clips)
             if len_clips == 0:
@@ -287,7 +287,7 @@ def main():
                     if given.lower() != "y":
                         print("Returning to menu...")
                         action_done = True
-        elif next_action[0] == "d":
+        elif next_action == "d":
             action_done = False
             len_clips = len(inventory.clips)
             if len_clips == 0:
@@ -342,7 +342,7 @@ def main():
                     given = input("Delete another clip? (y/n): ")
                     if given.lower() != "y":
                         action_done = True
-        elif next_action[0] == "x":
+        elif next_action == "x":
             len_clips = len(inventory.clips)
             if len_clips == 0:
                 print("No timestamps yet!")
@@ -357,7 +357,7 @@ def main():
                     print("All clips deleted.")
                 else:
                     print("Mass deletion canceled. Phew!")
-        elif next_action[0] == "r":
+        elif next_action == "r":
             len_clips = len(inventory.clips)
             if len_clips == 0:
                 print("No timestamps yet!")
@@ -379,7 +379,7 @@ def main():
                     print("Clipping successful!")
                 else:
                     print("Clipping failed; see error above.")
-        elif next_action[0] == "q":
+        elif next_action == "q":
             repl_is_running = False
         else:
             print("Sorry, action unknown.")
