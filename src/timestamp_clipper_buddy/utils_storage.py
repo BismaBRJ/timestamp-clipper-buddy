@@ -127,10 +127,10 @@ class Inventory:
             self.media_path = Path(data["media_path"])
             self.export_path = Path(data["export_path"])
             self.clips = []
-            print("Reading clips from json")
+            #print("Reading clips from json")
             for clip_dict in data["clips"]:
-                print("clip_dict[\"start\"] =", clip_dict["start"])
-                print("clip_dict[\"end\"] =", clip_dict["end"])
+                #print("clip_dict[\"start\"] =", clip_dict["start"])
+                #print("clip_dict[\"end\"] =", clip_dict["end"])
                 new_clip = ClipRange(
                         start = duration_from_str(clip_dict["start"]),
                         end = duration_from_str(clip_dict["end"]),
