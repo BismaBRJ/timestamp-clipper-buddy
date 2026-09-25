@@ -10,13 +10,21 @@ In short: a little REPL (read-eval-print loop) program to extract video/audio at
 
 This is a [uv](https://docs.astral.sh/uv/) project, so it is best installed and run using uv, though for now it is practically just a collection of scripts; so if you want, you may also directly run the `main.py` file.
 
-Either way, the first step is to get this repository on your computer. If you want, there's a "Download ZIP" button after clicking the green "Code" button on the GitHub repository page; then, to get the folder, you can unzip the file after downloading. If you have [git](https://git-scm.com/) installed, you can clone the repository via the command prompt or Terminal or whatever it's called on your system using the following command:
+Either way, the first step is to get this repository on your computer. If you want, there's a "Download ZIP" button after clicking the green "Code" button on the GitHub repository page; then, to get the folder, you can unzip the file after downloading. If you have [git](https://git-scm.com/) installed, you can instead clone the repository via the command prompt or Terminal or whatever it's called on your system using the following command:
 
 ```
 git clone https://github.com/BismaBRJ/timestamp-clipper-buddy.git
 ```
 
 Once the repo is on your computer, regardless of whether you clicked Download ZIP or ran `git clone`, the next step is to open the terminal on the folder. You may need to use the `cd` command, such as `cd <folder-name>` or `cd ..` (to exit the current folder) to navigate there. You can check whether or not you're there by listing the files in the current folder, using the `dir` command if on Windows or using `ls` otherwise; if you see the same files as on the GitHub repo page, then the terminal is at the right folder.
+
+Also, for the clipping process itself, this project makes use of [FFmpeg](https://ffmpeg.org/download.html) (at least for now?), so you need to have one of their builds/executables installed too, if not already. To check whether or not it's already installed on your computer, run the following command on the terminal:
+
+```
+ffmpeg --version
+```
+
+If you get a version number, it's installed; otherwise, you'd get an error.
 
 ### By using uv
 
@@ -61,7 +69,7 @@ If you use git, you may want to run
 uv tool install . -e
 ```
 
-with that `-e` flag for easier updating; see below.
+with that `-e` flag for easier updating; see the "How to update" section below.
 
 ### By manually running `main.py`
 
