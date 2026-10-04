@@ -123,9 +123,21 @@ class Inventory:
         with open(source_path, "r") as f:
             data = json.load(f)
         try:
+            #print("Reading inventory path")
             self.inventory_path = Path(source_path)
-            self.media_path = Path(data["media_path"])
-            self.export_path = Path(data["export_path"])
+
+            #print("Reading media path")
+            if ("media_path" in data) and (data["media_path"] is not None):
+                self.media_path = Path(data["media_path"])
+            else:
+                self.media_path = None
+
+            #print("Reading export path")
+            if ("export_path" in data) and (data["export_path"] is not None):
+                self.export_path = Path(data["export_path"])
+            else:
+                self.export_path = None
+
             self.clips = []
             #print("Reading clips from json")
             for clip_dict in data["clips"]:
@@ -138,10 +150,10 @@ class Inventory:
                     )
                 self.clips.append(new_clip)
             success = True
-        except:
-        #except Exception as e:
-            #print("Error:")
-            #print(e)
+        #except:
+        except Exception as e:
+            print("Error:")
+            print(e)
             self.inventory_path = backup["inventory_path"]
             self.media_path = backup["media_path"]
             self.export_path = backup["export_path"]
