@@ -3,7 +3,7 @@ name = "timestamp-clipper-buddy"
 version = "1.0.0"
 description = "A little REPL program to extract video/audio at specified timestamps, acting as an ongoing inventory towards doing so, using FFmpeg and written in Python 3"
 readme = "README.md"
-requires-python = ">=3.10" # for smooth use of type hints :)
+requires-python = ">=3.11.18" # due to the eMudhra / emSign CA certificate security incident: https://discuss.python.org/t/information-for-python-users-regarding-emudhra-emsign-ca-certificate-security-incident/109576
 dependencies = [
     "pathvalidate"
 ]
@@ -13,5 +13,5 @@ dependencies = [
 timestamp-clipper-buddy = "timestamp_clipper_buddy.main:main"
 
 [build-system]
-requires = ["uv_build>=0.12"] # whatever works I guess?
+requires = ["uv_build>=0.13.4"] # also due to the aforementioned security incident
 build-backend = "uv_build"
